@@ -1,29 +1,21 @@
 class Solution:
-    def countarray(slef,words,count):
-        for ch in words:
-            count[ord(ch) - ord('a')] += 1
-            
-            
-            
-    def commonChars(self, words: List[str]) -> List[str]:
+     def commonChars(self, words: List[str]) -> List[str]:
         result = []
-        n = len(words)
-        count = [0]*26
-        self.countarray(words[0],count)
-        
-        for i in range(1, n):
-            temp = [0] * 26
-            self.countarray(words[i], temp)
-            
-            
-            for j in range(26):
-                count[j] = min(count[j], temp[j])
-        
-        
-        for i in range(26):
-            if count[i] != 0:
-                result.extend([chr(i + ord('a'))] * count[i])
-        
+    
+        for char in range(ord('a'), ord('z')+1):
+            char = chr(char)
+            min_count = float('inf')
+
+            for word in words:
+                count = word.count(char)
+                min_count = min(min_count,count)
+
+                if min_count == 0:
+                    break
+            result.extend([char]*min_count)
+
         return result
+
+   
         
         
