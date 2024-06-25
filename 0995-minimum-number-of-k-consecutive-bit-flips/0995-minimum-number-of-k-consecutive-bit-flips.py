@@ -1,15 +1,19 @@
 class Solution:
     def minKBitFlips(self, A: List[int], K: int) -> int:
-        n, flipped, res = len(A), 0, 0
-        fp = [0] * n
+        n = len(A)
+        flip = [0] * n  # Flip tracker
+        num_flips = 0  # Total number of flips
+        current_flips = 0  # Ongoing flips in the current window
+
         for i in range(n):
             if i >= K:
-                flipped ^= fp[i - K]
-            if flipped == A[i]:
-                if i + K > n:
+                current_flips ^= flip[i - K]  # Undo the effect of the flip that goes out of the window
+
+            if A[i] == current_flips % 2:  # If current bit is 0 after the flips
+                if i + K > n:  # If we cannot flip because we are out of bounds
                     return -1
-                fp[i] = 1
-                flipped ^= 1
-                res += 1
-        return res
-        
+                flip[i] = 1  # Mark this position as flipped
+                current_flips ^= 1  # Update current flips
+                num_flips += 1  # Increment the flip count
+
+        return num_flips
